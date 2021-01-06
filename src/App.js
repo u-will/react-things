@@ -19,19 +19,20 @@ class App extends Component {
         }
       ]
     };
-    this.oncreated = this.onCreated.bind(this);
+    this.onCreated = this.onCreated.bind(this);
   }
 
   onCreated(thing) {
-    const thingList= [...this.state.thingList, thing]
-    this.setState({thingList})
+    const thingList = [...this.state.thingList, thing];
+    thing.id= thingList.length;
+    this.setState({ thingList })
   }
 
   render() {
     return (
       <div className="App">
         <Header thingCount={this.state.thingList.length} />
-        <ThingList thingList={this.state.thingList} oncreated={this.onCreated} />
+        <ThingList thingList={this.state.thingList} onCreated={this.onCreated} />
         <Footer />
       </div>
     );
@@ -44,18 +45,18 @@ function Header(props) {
 
 function ThingList(props) {
 
-    return (
-      <div>
-        <ThingForm onCreated={props.onCreated} />
-        <ul>
-          {
-            props.thingList.map(thing => (
-              < ThingItem key={thing.id} name={thing.name} status={thing.status} />
-            ))
-          }
-        </ul>
-      </div>
-    )
+  return (
+    <div>
+      <ThingForm onCreated={props.onCreated} />
+      <ul>
+        {
+          props.thingList.map(thing => (
+            < ThingItem key={thing.id} name={thing.name} status={thing.status} />
+          ))
+        }
+      </ul>
+    </div>
+  )
 }
 
 class ThingForm extends React.Component {
@@ -78,8 +79,6 @@ class ThingForm extends React.Component {
   handleSubmit(event) {
     // alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
-    //  I do not underastand this part right here why this.props .oncreated?? 
-    // why arre we using this instead of this props?
     this.props.onCreated(this.state);
   }
 
